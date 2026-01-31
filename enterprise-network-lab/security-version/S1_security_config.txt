@@ -1,0 +1,33 @@
+
+!
+hostname S1
+!
+! Port security on access ports
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+!
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 20
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+!
+! DHCP Snooping
+ip dhcp snooping
+ip dhcp snooping vlan 10,20
+interface FastEthernet0/24
+ ip dhcp snooping trust
+!
+! Dynamic ARP Inspection
+ip arp inspection vlan 10,20
+interface FastEthernet0/24
+ ip arp inspection trust
+!
+end

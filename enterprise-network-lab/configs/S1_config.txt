@@ -1,0 +1,27 @@
+
+!
+hostname S1
+no ip domain-lookup
+!
+! VLANs
+vlan 10
+ name Users
+vlan 20
+ name Admin
+exit
+!
+! Access ports
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+!
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 20
+!
+! Trunk to R1
+interface FastEthernet0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+end

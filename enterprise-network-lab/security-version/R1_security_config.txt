@@ -1,0 +1,38 @@
+
+!
+hostname R1
+ip domain-name lab.local
+service password-encryption
+enable secret C1sc0!En@ble
+!
+! Generate RSA keys (Packet Tracer: 1024 recommended)
+crypto key generate rsa modulus 1024
+ip ssh version 2
+!
+username admin privilege 15 secret StrongPassword123
+line vty 0 4
+ exec-timeout 10 0
+ transport input ssh
+ login local
+exit
+!
+! (Optional) Zone-Based Firewall skeleton if you have an OUTSIDE interface
+!zone security INSIDE
+!zone security OUTSIDE
+!class-map type inspect CM-ALLOWED
+! match protocol tcp
+! match protocol udp
+! match protocol icmp
+!policy-map type inspect PM-INTERNET
+! class type inspect CM-ALLOWED
+!  inspect
+! class class-default
+!  drop
+!interface GigabitEthernet0/0
+! zone-member security INSIDE
+!interface GigabitEthernet0/1
+! zone-member security OUTSIDE
+!zone-pair security ZP-INSIDE-OUTSIDE source INSIDE destination OUTSIDE
+! service-policy type inspect PM-INTERNET
+!
+end

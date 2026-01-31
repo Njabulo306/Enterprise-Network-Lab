@@ -1,0 +1,27 @@
+
+!
+hostname R1
+no ip domain-lookup
+!
+! Subinterfaces for inter-VLAN routing
+interface GigabitEthernet0/0
+ no shutdown
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/0.20
+ encapsulation dot1q 20
+ ip address 192.168.20.1 255.255.255.0
+!
+! DHCP pools
+ip dhcp pool VLAN10
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+!
+ip dhcp pool VLAN20
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+!
+end
